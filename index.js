@@ -6,18 +6,19 @@ let Sudoku = function (place) {
         for (let j = 0; j < 9; j++) {
             a = place[i][j]
             getPlace[i][j] = [0,0,0,0,0,0,0,0,0]
-            getPlace[i][j][j] = a;
+            getPlace[i][j][a-1] = a;
             if (a!= 0){
                 getPlace[i][j].push("stable")
+            } else{
+                getPlace[i][j] = [1,2,3,4,5,6,7,8,9]
             }
         }
     }
-    place.forEach(element => {
-        element.forEach(eme=>{
-            console.log(eme)
-        })
-    
-    });
+    // place.forEach(element => {
+    //     element.forEach(eme=>{
+    //         console.log(eme)
+    //     })
+    // });
     let bloks = [
         [],
         [],
@@ -68,13 +69,14 @@ let Sudoku = function (place) {
 
 
 
-    // for(let i = 0;i<9;i++){
-    // for(let j = 0; j<9;j++){
-    // for(let k = 0;k<9;k++){
-    // stolbs[i].push(place[k][j])
-    // }
-    // }
-    // }
+   
+       for(let j = 0;j<9;j++){
+           for(let k = 0;k<9;k++){
+               stolbs[j][k] = place[k][j]
+           }
+       }
+   
+   console.log(stolbs[0][0])
 
     //Сейчас будет проверка строк на уникальные элемент
 
