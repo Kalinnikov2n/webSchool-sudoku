@@ -3,7 +3,7 @@
     const getSet = (a,b) => {
         let answer = []
         for (let i = 0; i < 9; i++){
-            if (a[b][i].length < 9){
+            if (a[b][i].length <= 9){
                 for (let j = 0; j < 9; j++){
                     answer.push(a[b][i][j])  //все элементы строки в один массив 
                 }
@@ -17,7 +17,7 @@
 
         for (let i = 0; i < 9; i++){
             let q = 0
-            if (a[b][i].length < 9){
+            if (a[b][i].length <= 9){
                 for (let j = 0; j < 9; j++){
                     if (a[b][i][j] == 0){
                         q += 1
@@ -42,7 +42,7 @@
 //вывод позиции уникального элемента
         if (p != 1) {
             for (let i = 0; i < 9; i++){
-                if (a[b][i].length < 9){
+                if (a[b][i].length <= 9){
                     for (let j = 0; j < 9; j++){
                         if (a[b][i][j] == answer[0]){
                             c[0] = b
@@ -63,7 +63,7 @@
     const getSetcolumn = (a,b) => {
                 let answer = []
         for (let i = 0; i < 9; i++){
-            if (a[i][b].length < 9){
+            if (a[i][b].length <= 9){
                 for (let j = 0; j < 9; j++){
                     answer.push(a[i][b][j])  //все элементы столбца в один массив 
                 }
@@ -77,7 +77,7 @@
 
         for (let i = 0; i < 9; i++){
             let q = 0
-            if (a[i][b].length < 9){
+            if (a[i][b].length <= 9){
                 for (let j = 0; j < 9; j++){
                     if (a[i][b][j] == 0){
                         q += 1
@@ -101,7 +101,7 @@
 //вывод позиции уникального элемента
         if (p != 1) {
             for (let i = 0; i < 9; i++){
-                if (a[i][b].length < 9){
+                if (a[i][b].length <= 9){
                     for (let j = 0; j < 9; j++){
                         if (a[i][b][j] == answer[0]){
                             c[0] = i
@@ -121,7 +121,7 @@
     const getSet3x3 = (a,n,k) => {
         let answer = []
         for (let i = n; i < n+3; i++){
-            if (a[i][k].length < 9){
+            if (a[i][k].length <= 9){
                 for (let j = 0; j < 9; j++){
                     answer.push(a[i][k][j])  //все элементы столбца в один массив 
                 }
@@ -138,7 +138,7 @@
 
         for (let i = n; i < n+3; i++){
             let q = 0
-            if (a[i][k].length < 9){
+            if (a[i][k].length <= 9){
                 for (let j = 0; j < 9; j++){
                     if (a[i][k][j] == 0){
                         q += 1
@@ -161,7 +161,7 @@
 //вывод позиции уникального элемента
         if (p != 1) {
             for (let i = n; i < n+3; i++){
-                if (a[i][k].length < 9){
+                if (a[i][k].length <= 9){
                     for (let j = 0; j < 9; j++){
                         if (a[i][k][j] == answer[0]){
                             c[0][0] = i
@@ -175,7 +175,7 @@
 
 //второй столбец матрицы 3 на 3    
         for (let i = n; i < n+3; i++){
-            if (a[i][k].length < 9){
+            if (a[i][k].length <= 9){
                 for (let j = 0; j < 9; j++){
                     answer.push(a[i][k+1][j])  //все элементы столбца в один массив 
                 }
@@ -189,7 +189,7 @@
     
             for (let i = n; i < n+3; i++){
                 let q = 0
-                if (a[i][k+1].length < 9){
+                if (a[i][k+1].length <= 9){
                     for (let j = 0; j < 9; j++){
                         if (a[i][k+1][j] == 0){
                             q += 1
@@ -212,7 +212,7 @@
     //вывод позиции уникального элемента
             if (p != 1) {
                 for (let i = n; i < n+3; i++){
-                    if (a[i][k+1].length < 9){
+                    if (a[i][k+1].length <= 9){
                         for (let j = 0; j < 9; j++){
                             if (a[i][k+1][j] == answer[0]){
                                 c[1][0] = i
@@ -227,7 +227,7 @@
 
  //третий столбец матрицы 3 на 3     
         for (let i = n; i < n+3; i++){
-            if (a[i][k+2].length < 9){
+            if (a[i][k+2].length <= 9){
                 for (let j = 0; j < 9; j++){
                     answer.push(a[i][k+2][j])  //все элементы столбца в один массив 
                 }
@@ -241,7 +241,7 @@
     
             for (let i = n; i < n+3; i++){
                 let q = 0
-                if (a[i][k+2].length < 9){
+                if (a[i][k+2].length <= 9){
                     for (let j = 0; j < 9; j++){
                         if (a[i][k+2][j] == 0){
                             q += 1
@@ -264,7 +264,7 @@
     //вывод позиции уникального элемента
             if (p != 1) {
                 for (let i = n; i < n+3; i++){
-                    if (a[i][k+2].length < 9){
+                    if (a[i][k+2].length <= 9){
                         for (let j = 0; j < 9; j++){
                             if (a[i][k+2][j] == answer[0]){
                                 c[2][0] = i
