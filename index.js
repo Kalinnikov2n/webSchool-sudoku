@@ -387,17 +387,6 @@ const getSet3x3 = (a,n,k) => {
     return ""
 }
 
-let sudokuModifed = Sudoku([
-    [1, 7, 9, 0, 0, 0, 0, 4, 3],
-    [0, 6, 0, 0, 0, 0, 0, 2, 1],
-    [4, 0, 2, 0, 0, 1, 9, 8, 0],
-    [6, 0, 7, 0, 0, 0, 0, 1, 0],
-    [5, 0, 0, 0, 1, 2, 3, 9, 0],
-    [3, 0, 1, 4, 9, 7, 0, 0, 0],
-    [9, 0, 0, 3, 0, 5, 0, 7, 4],
-    [0, 0, 0, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 5, 8],
-])
 const sudokuMakerNumDeletor = (sudoku, strNum, colNum, setCellValue) =>{ //Функция удаление значений - дубликатов значений stable
     let cellValue=0;
     let cellValueIndex=0;
