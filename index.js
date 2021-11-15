@@ -490,4 +490,33 @@ const sudokuMaker = (sudoku) => {
     }
     return sudoku
 }
-console.log(sudokuMaker(sudokuModifed))
+
+const sudokuMakerProgramm = (inputSudoku) => {
+    let sudoku = Sudoku(inputSudoku)
+    let sudokuMaked = sudokuMaker(sudoku);
+    let sudokuFinal = []
+    for(let strNum=0; strNum<9; strNum++){
+        sudokuFinal.push([])
+        for(let colNum=0; colNum<9; colNum++){
+            sudokuFinal[strNum].push(0)
+            for(let colIndex=0; colIndex<9; colIndex++){
+                let celValue=sudokuMaked[strNum][colNum][colIndex]
+                if(celValue!=0){
+                    sudokuFinal[strNum][colNum]=celValue;
+                }
+            }
+        }
+    }
+    return sudokuFinal
+}
+console.log(sudokuMakerProgramm([
+    [1, 7, 9, 0, 0, 0, 0, 4, 3],
+    [0, 6, 0, 0, 0, 0, 0, 2, 1],
+    [4, 0, 2, 0, 0, 1, 9, 8, 0],
+    [6, 0, 7, 0, 0, 0, 0, 1, 0],
+    [5, 0, 0, 0, 1, 2, 3, 9, 0],
+    [3, 0, 1, 4, 9, 7, 0, 0, 0],
+    [9, 0, 0, 3, 0, 5, 0, 7, 4],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 5, 8],
+]))
