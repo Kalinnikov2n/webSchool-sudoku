@@ -76,7 +76,6 @@ let Sudoku = function (place) {
            }
        }
    
-   console.log(stolbs[0][0])
 
     //Сейчас будет проверка строк на уникальные элемент
 
@@ -96,18 +95,6 @@ let Sudoku = function (place) {
     // console.log(stolbs[0][0])
     return getPlace
 }
-
-console.log(Sudoku([
-    [1, 7, 9, 0, 0, 0, 0, 4, 3],
-    [0, 6, 0, 0, 0, 0, 0, 2, 1],
-    [4, 0, 2, 0, 0, 1, 9, 8, 0],
-    [6, 0, 7, 0, 0, 0, 0, 1, 0],
-    [5, 0, 0, 0, 1, 2, 3, 9, 0],
-    [3, 0, 1, 4, 9, 7, 0, 0, 0],
-    [9, 0, 0, 3, 0, 5, 0, 7, 4],
-    [0, 0, 0, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 5, 8],
-]))
 
 //Поиск в строке (на вход подается судоку и номер строки, в которой надо найти уникальный элемент)
 
@@ -165,6 +152,7 @@ const getSetStr = (a,b) => {
             }
         }
     }
+    return "";
 }
 
 
@@ -224,6 +212,7 @@ const getSetcolumn = (a,b) => {
             }
         }
     }
+    return ""
 }
 
 // //Поиск в 3x3 (на вход подается судоку, номер строки и столбца, откуда начинать поиск)
@@ -395,6 +384,7 @@ const getSet3x3 = (a,n,k) => {
             return c[2]
         }
     }
+    return ""
 }
 
 let sudokuModifed = Sudoku([
@@ -408,50 +398,96 @@ let sudokuModifed = Sudoku([
     [0, 0, 0, 0, 0, 0, 1, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 5, 8],
 ])
-const sudokuMakerNumDeletor = (sudoku, strNum, colNum) =>{ //Функция удаление значений - дубликатов значений stable
+const sudokuMakerNumDeletor = (sudoku, strNum, colNum, setCellValue) =>{ //Функция удаление значений - дубликатов значений stable
     let cellValue=0;
-                let cellValueIndex=0;
-                while(cellValue==0){
-                    cellValue=sudoku[strNum][colNum][cellValueIndex];
-                    cellValueIndex+=1;
-                }
-                for(let colNumDel = 0; colNumDel<9; colNumDel++){ //Убираем возможные числа из клеток, где в связи-cтроке есть stable клетки
-                    if(colNumDel!=colNum){
-                        sudoku[strNum][colNumDel][cellValueIndex-1]=0;
-                    }
-                }
-                for(let strNumDel = 0; strNumDel<9; strNumDel++){ //Убираем возможные числа из клеток, где в связи-cтолбе есть stable клетки
-                    if(strNumDel!=strNum){
-                        sudoku[strNumDel][colNum][cellValueIndex-1]=0;
-                    }
-                }
-                //Убираем возможные числа из клеток, где в связи-блоке3х3 есть stable клетки
-                let block3x3str = Math.floor(strNum/3);
-                let block3x3col = Math.floor(colNum/3);
-                for(let block3x3strNum = block3x3str*3; block3x3strNum < ((block3x3str+1)*3); block3x3strNum++){
-                    for(let block3x3colNum = block3x3col*3; block3x3colNum < ((block3x3col+1)*3); block3x3colNum++){
-                        if((block3x3strNum!=strNum)||(block3x3colNum!=colNum)){
-                            sudoku[block3x3strNum][block3x3colNum][cellValueIndex-1]=0;
-                        }
-                    }
-                }
+    let cellValueIndex=0;
+    if(setCellValue){
+        cellValue=setCellValue;
+        cellValueIndex=setCellValue;
+        for(let i=0; i<9;i++){
+            sudoku[strNum][colNum][i]=0;
+        }
+        sudoku[strNum][colNum][cellValueIndex-1]=cellValue;
+    }
+    while(cellValue==0){
+        cellValue=sudoku[strNum][colNum][cellValueIndex];
+        cellValueIndex+=1;
+    }
+    for(let colNumDel = 0; colNumDel<9; colNumDel++){ //Убираем возможные числа из клеток, где в связи-cтроке есть stable клетки
+        if(colNumDel!=colNum){
+            sudoku[strNum][colNumDel][cellValueIndex-1]=0;
+        }
+    }
+    for(let strNumDel = 0; strNumDel<9; strNumDel++){ //Убираем возможные числа из клеток, где в связи-cтолбе есть stable клетки
+        if(strNumDel!=strNum){
+            sudoku[strNumDel][colNum][cellValueIndex-1]=0;
+        }
+    }
+    //Убираем возможные числа из клеток, где в связи-блоке3х3 есть stable клетки
+    let block3x3str = Math.floor(strNum/3);
+    let block3x3col = Math.floor(colNum/3);
+    for(let block3x3strNum = block3x3str*3; block3x3strNum < ((block3x3str+1)*3); block3x3strNum++){
+        for(let block3x3colNum = block3x3col*3; block3x3colNum < ((block3x3col+1)*3); block3x3colNum++){
+            if((block3x3strNum!=strNum)||(block3x3colNum!=colNum)){
+                sudoku[block3x3strNum][block3x3colNum][cellValueIndex-1]=0;
+            }
+        }
+    }
+}
+
+const sudokuMakerSetStr = (sudoku, strNum) =>{
+    let result = getSetStr(sudoku, strNum);
+    if(result!=""){
+        sudoku[result[0]][result[1]].push("stable");
+        sudokuMakerNumDeletor(sudoku, result[0], result[1], result[2]);
+        sudokuMakerSetMultiCheck(sudoku, result[0], result[1]);
+    }
+}
+
+const sudokuMakerSetCol = (sudoku, colNum) =>{
+    let result = getSetcolumn(sudoku, colNum);
+    if(result!=""){
+        sudoku[result[0]][result[1]].push("stable");
+        sudokuMakerNumDeletor(sudoku, result[0], result[1], result[2]);
+        sudokuMakerSetMultiCheck(sudoku, result[0], result[1]);
+    }
+}
+
+const sudokuMakerSet3x3Block = (sudoku, strNum, colNum) =>{
+    let block3x3str = Math.floor(strNum/3);
+    let block3x3col = Math.floor(colNum/3);
+    let result = getSet3x3(sudoku, block3x3str, block3x3col)
+    if(result!=""){
+        sudoku[result[0]][result[1]].push("stable");
+        sudokuMakerNumDeletor(sudoku, result[0], result[1], result[2]);
+        sudokuMakerSetMultiCheck(sudoku, result[0], result[1]);
+    }
+}
+const sudokuMakerSetMultiCheck = (sudoku, strNum, colNum) =>{
+    let block3x3str = Math.floor(strNum/3);
+    let block3x3col = Math.floor(colNum/3);
+    sudokuMakerSet3x3Block(sudoku, block3x3str, block3x3col)
+    for(let block3x3strNum = block3x3str*3; block3x3strNum < ((block3x3str+1)*3); block3x3strNum++){
+        sudokuMakerSetStr(sudoku, block3x3strNum);
+    }
+    for(let block3x3colNum = block3x3col*3; block3x3colNum < ((block3x3col+1)*3); block3x3colNum++){
+        sudokuMakerSetCol(sudoku, block3x3colNum);
+    }
 }
 
 const sudokuMaker = (sudoku) => {
     for(let strNum = 0; strNum<9; strNum++){ //Убираем возможные числа из клеток, где в связи есть stable клетки
-        console.log(strNum)
         for(let colNum = 0; colNum<9; colNum++){
-            console.log(strNum,colNum)
-            console.log("strFloor", Math.floor(strNum/3))
-            console.log("colFloor", Math.floor(colNum/3))
-            console.log(sudoku[strNum][colNum])
             if(sudoku[strNum][colNum].length>9){
                 sudokuMakerNumDeletor(sudoku, strNum, colNum);
             }
         }
     }
     for(let strNum = 0; strNum<9; strNum++){ //Убираем возможные числа из клеток, где в связи есть stable клетки
+        for(let colNum = 0; colNum<9; colNum++){
+            sudokuMakerSetMultiCheck(sudoku, strNum, colNum);
+        }
     }
-    console.log(sudoku)
+    return sudoku
 }
 console.log(sudokuMaker(sudokuModifed))
