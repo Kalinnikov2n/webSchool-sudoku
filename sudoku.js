@@ -16,7 +16,7 @@ function solve(board){
     }
 
     if (nextEmptySpot(board)[0] !== -1) {
-        board[row][col] = 0;
+        board[row][column] = 0;
     }
     return board;
 }
