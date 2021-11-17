@@ -28,8 +28,29 @@ let mainSolve = function(Board) {
            
     const solve = () => {
 
-        // --- сюда функцию, которая решает, какое значение подставить (через рекурсию)
-    
+        const currPos = findEmpty(board);
+
+        if (currPos === null) {
+        return true;
+        }
+        
+        for (let i = 1; i < size + 1; i++) {
+        const currNum = i.toString();
+        const isValid = validate(currNum, currPos, board);
+        
+        if (isValid) {
+        const [x,y] = currPos;
+        board[x][y] = currNum;
+        
+        if(solve()) {
+        return true;
+        }
+        
+        board[x][y] = '0';
+        }
+        }
+        
+        return false;
     }
 
     solve()
