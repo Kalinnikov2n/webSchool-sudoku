@@ -16,31 +16,38 @@ let mainSolve = function(Board) {
 
     const findZero  = (Board) => {
 
-        // ---  сюда функция, которая ищет пустые значения в доске
-            
+        for (let r = 0; r < size; r++) {
+            for (let c = 0; c < size; c ++) {
+                if (Board [r][c] === 0) {
+                    return [r,c];
+                }
+            }
+        }
+        return null
     }
+            
 
-    const valid = (num, pos, board) => {
+    const valid = (num, pos, Board) => {
         const [r, c] = pos
          
         for (let i = 0; i < size; i++) {
-            if (board[i][c] === num && i !== r) {
+            if (Board[i][c] === num && i !== r) {
                 return false
             }
         }
         
         for (let i = 0; i < size; i++) {
-          if (board[r][i] === num && i !== c) {
+          if (Board[r][i] === num && i !== c) {
               return false
           }
       } 
 
-       const boxCol = Math.floor( c/boxSize ) * boxSize
-       const boxRow = Math.floor( r/boxSize ) * boxSize
+       const blockCol = Math.floor( c/blockSize ) * blockSize
+       const blockRow = Math.floor( r/blockSize ) * blockSize
        
-       for (let i = boxRow; i < boxRow + boxSize; i++){
-           for ( let j = boxCol; j <boxCol + boxSize; j++){
-              if (board[i][j] === num && i !== r && j !== c) {
+       for (let i = blockRow; i < blockRow + blockSize; i++){
+           for ( let j = blockCol; j <blockCol + blockSize; j++){
+              if (Board[i][j] === num && i !== r && j !== c) {
                   return false
            }
        }
@@ -51,31 +58,30 @@ let mainSolve = function(Board) {
            
     const solve = () => {
 
-        const currPos = findEmpty(board);
+        const currPos = findZero(Board)
 
         if (currPos === null) {
         return true;
         }
         
         for (let i = 1; i < size + 1; i++) {
-        const currNum = i.toString();
-        const isValid = validate(currNum, currPos, board);
+            const currNum = i
+            const isValid = valid(currNum, currPos, Board)
+            
+            if (isValid) {
+            const [x,y] = currPos
+            Board[x][y] = currNum
         
-        if (isValid) {
-        const [x,y] = currPos;
-        board[x][y] = currNum;
-        
-        if(solve()) {
-        return true;
+            if(solve()) {
+                return true;
         }
         
-        board[x][y] = '0';
+            Board[x][y] = 0
         }
-        }
+    }
         
         return false;
-    }
-
+}
     solve()
     return Board
 }
