@@ -1,78 +1,5 @@
-function solve(board){
-    var emptyField = findEmpty;
-    var row = empty[0];
-    var column = empty[1];
-
-    // no empty fields
-    if (row == -1) {
-        return board;
-    }
-
-    for (var num = 1; num <= 9; num++) {
-        if (noTrouble(board, row, column, num)){
-            board[row][column] = num;
-            solve(board);
-        }
-    }
-
-    if (nextEmptySpot(board)[0] !== -1) {
-        board[row][column] = 0;
-    }
-    return board;
-}
-
-function checkRow(board, row, num){
-    for (var i = 0; i < board[row].length; i++){
-        if (board[row][i] === num){
-            return false;
-        }
-    } 
-    return true
-}
-
-function checkColumn(board, column, num){
-    for (var i = 0; i < board.length; i++){
-        if (board[i][column] === num){
-            return false;
-        }
-    } 
-    return true
-}
-
-function checkBox(board, row, column, num){
-    xBox = Math.floor(row / 3) * 3;
-    yBox = Math.floor(column / 3) * 3;
-
-    for (var i = 0; i < 3; i++){
-        for (var j = 0; j < 3; j++){
-            if (board[xBox + i][yBox + j] === num){
-                return false;
-            }                    
-        }
-    }
-    return true;
-}
-
-function checkNum(board, row, column, num) {
-    if (checkRow(board, row, num) &&
-        checkColumn(board, column, num) &&
-        checkBox(board, row, column, num)) {
-            return true;
-    }
-    return false;
-}
-
-function findEmpty(board){
-    for (var i = 0; i < 9; i++) {
-        for(var j = 0; j < 9; j++) {
-            if (board[i][j] === 0)
-                return [i, j];
-        }
-    }
-    return [-1, -1];
-}
-
-var solvedBoard = solve([
+//бэктрэкинг-алгоритм
+const board = [
     [1, 7, 9, 0, 0, 0, 0, 4, 3],
     [0, 6, 0, 0, 0, 0, 0, 2, 1],
     [4, 0, 2, 0, 0, 1, 9, 8, 0],
@@ -82,6 +9,36 @@ var solvedBoard = solve([
     [9, 0, 0, 3, 0, 5, 0, 7, 4],
     [0, 0, 0, 0, 0, 0, 1, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 5, 8],
-])
+];
+sudokuSolver(board);
+console.log(board);
 
-console.log(solvedBoard);
+function isValid(board, row, col, k) {
+    for (let i = 0; i < 9; i++) {
+        const m = 3 * Math.floor(row / 3) + Math.floor(i / 3);
+        const n = 3 * Math.floor(col / 3) + i % 3;
+        if (board[row][i] == k || board[i][col] == k || board[m][n] == k) {
+          return false;
+        }
+    }
+    return true;
+}
+
+
+function sudokuSolver(data) {
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (data[i][j] == 0) {
+        for (let k = 1; k <= 9; k++) {
+          if (isValid(data, i, j, k)) {
+            data[i][j] = k;
+          if (sudokuSolver(data)) return true;
+          else data[i][j] = 0;
+         }
+       }
+       return false;
+     }
+   }
+ }
+ return true;
+}
