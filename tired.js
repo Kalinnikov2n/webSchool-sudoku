@@ -1,29 +1,29 @@
 function run(field) {
-    var values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     var [row, col] = findEmptyCell(field)
+    // row = findEmptyCell(field)[0]
+    // col = findEmptyCell(field)[1]
 
-    if (row === col == -1) {
-        
+    if (row == -1 && col == -1) {
         return field
     }
 
-    values.forEach( value => {
-        // console.log(checkRow(field, row, value))
-        // console.log(checkCol(field, col, value))
-        // console.log(checkArea(field, row, col, value))
-        if (checkRow(field, row, value) && checkCol(field, col, value) && checkArea(field, row, col, value)) {
-            // я перестала понимать жизнь, он работает косячно
-            field[row][col] = value
+    for (let i = 1; i <= 9; i++) {
+        if (checkRow(field, row, i) && checkCol(field, col, i) && checkArea(field, row, col, i)) {
+            field[row][col] = i
             run(field)
         }
-    })
-    console.log('я вернул поле при: ', row, col)
+    }
+     
+    if (findEmptyCell(field)[0] !== -1) {
+        field[row][col] = 0
+    }
+    
     return field
 }
 
 function findEmptyCell(field)  {
-    for (row in field) {
-        for (col in field[row]) {
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
             if (field[row][col] === 0) {
                 return [row, col]
             }
@@ -33,10 +33,16 @@ function findEmptyCell(field)  {
 }
 
 function checkRow(field, row, val) {
-    // field[row].forEach( element => {
     for (let i = 0; i < 9; i++) {
-        if (field[row][i] === val) {
-            return false
+        // row = Number(row)
+        try {
+            if (field[row][i] === val) {
+                return false
+            }
+        }
+        catch (err) {
+            console.log(row, val, field)
+            console.log(err)
         }
     }
     return true
@@ -62,44 +68,6 @@ function checkArea(field, row, col, val) {
     return true
 }
 
-//Эта херня меня задолбала я не знаю как ещё проверить квадраты и углы
-// ок нашла в инете
-
-// function checkBorders(field, row, col, startRow, endRow, startCol, endCol) {
-//     for (let i = startRow; i < endRow; i++) {
-//         for (let j = startCol; j < endCol; j++) {
-//             return (field[row + i][col + j])
-//         }
-//     }
-// }
-
-// function checkArea(field, row, col) {
-    // switch (row | col) {
-    //     case 0 | 0:
-    //         // return checkBorders(field, row, col, 0, 2, 0, 2)
-    //     case 8 | 0:
-    //         // return checkBorders(field, row, col, -1, 1, 0, 2)
-    //     case 0 | 8:
-    //         // return checkBorders(field, row, col, 0, 2, -1, 1)
-    //     case 8 | 8:
-    //         // return checkBorders(field, row, col, -1, 1, -1, 1)
-    //     case 0 | [1-9]:
-    //         // return checkBorders(field,  row, col, 0, 2, -1, 2)
-    //     case 8 | [1-9]:
-    //         // return checkBorders(field, row, col, -1, 1, -1, 2)
-    //     case [1-9] | 0:
-    //         // return checkBorders(field, row, col, -1, 2, 0, 2)
-    //     case [1-9] | 8:
-    //         // return checkBorders(field, row, col, -1, 2, -1, 1)
-    //     default:
-    //         for (let i = -1; i < 2; i++) {
-    //             for (let j = -1; j < 2; j++) {
-    //                 return field[row + i][col + j]
-    //             }
-    //         }
-    // } 
-// }
-
 var game = [
     [1, 7, 9, 0, 0, 0, 0, 4, 3],
     [0, 6, 0, 0, 0, 0, 0, 2, 1],
@@ -113,4 +81,4 @@ var game = [
 ]
 
 
-console.log(run(game))
+console.table(run(game))
